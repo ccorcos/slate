@@ -1,4 +1,4 @@
-import { IEditor, Editor, ILocation, Point, Range, Transforms } from '..'
+import { IEditor, Editor, Location, Point, Range, Transforms } from '..'
 
 export const SelectionTransforms = {
   /**
@@ -105,7 +105,7 @@ export const SelectionTransforms = {
    * Set the selection to a new value.
    */
 
-  select(editor: IEditor, target: ILocation) {
+  select(editor: IEditor, target: Location) {
     const { selection } = editor
     target = Editor.range(editor, target)
 

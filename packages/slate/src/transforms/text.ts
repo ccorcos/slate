@@ -2,7 +2,7 @@ import {
   IEditor,
   Editor,
   Element,
-  ILocation,
+  Location,
   Node,
   NodeEntry,
   Path,
@@ -20,7 +20,7 @@ export const TextTransforms = {
   delete(
     editor: IEditor,
     options: {
-      at?: ILocation
+      at?: Location
       distance?: number
       unit?: 'character' | 'word' | 'line' | 'block'
       reverse?: boolean
@@ -193,7 +193,7 @@ export const TextTransforms = {
     editor: IEditor,
     fragment: Node[],
     options: {
-      at?: ILocation
+      at?: Location
       hanging?: boolean
       voids?: boolean
     } = {}
@@ -408,7 +408,7 @@ export const TextTransforms = {
     editor: IEditor,
     text: string,
     options: {
-      at?: ILocation
+      at?: Location
       voids?: boolean
     } = {}
   ) {

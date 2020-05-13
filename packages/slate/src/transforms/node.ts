@@ -3,7 +3,7 @@ import {
   Editor,
   IElement,
   Element,
-  ILocation,
+  Location,
   Node,
   Path,
   Point,
@@ -24,7 +24,7 @@ export const NodeTransforms = {
     editor: IEditor,
     nodes: Node | Node[],
     options: {
-      at?: ILocation
+      at?: Location
       match?: (node: Node) => boolean
       mode?: 'highest' | 'lowest'
       hanging?: boolean
@@ -141,7 +141,7 @@ export const NodeTransforms = {
   liftNodes(
     editor: IEditor,
     options: {
-      at?: ILocation
+      at?: Location
       match?: (node: Node) => boolean
       mode?: 'all' | 'highest' | 'lowest'
       voids?: boolean
@@ -205,7 +205,7 @@ export const NodeTransforms = {
   mergeNodes(
     editor: IEditor,
     options: {
-      at?: ILocation
+      at?: Location
       match?: (node: Node) => boolean
       mode?: 'highest' | 'lowest'
       hanging?: boolean
@@ -344,7 +344,7 @@ export const NodeTransforms = {
   moveNodes(
     editor: IEditor,
     options: {
-      at?: ILocation
+      at?: Location
       match?: (node: Node) => boolean
       mode?: 'all' | 'highest' | 'lowest'
       to: Path
@@ -394,7 +394,7 @@ export const NodeTransforms = {
   removeNodes(
     editor: IEditor,
     options: {
-      at?: ILocation
+      at?: Location
       match?: (node: Node) => boolean
       mode?: 'highest' | 'lowest'
       hanging?: boolean
@@ -441,7 +441,7 @@ export const NodeTransforms = {
     editor: IEditor,
     props: Partial<Node>,
     options: {
-      at?: ILocation
+      at?: Location
       match?: (node: Node) => boolean
       mode?: 'all' | 'highest' | 'lowest'
       hanging?: boolean
@@ -539,7 +539,7 @@ export const NodeTransforms = {
   splitNodes(
     editor: IEditor,
     options: {
-      at?: ILocation
+      at?: Location
       match?: (node: Node) => boolean
       mode?: 'highest' | 'lowest'
       always?: boolean
@@ -668,7 +668,7 @@ export const NodeTransforms = {
     editor: IEditor,
     props: string | string[],
     options: {
-      at?: ILocation
+      at?: Location
       match?: (node: Node) => boolean
       mode?: 'all' | 'highest' | 'lowest'
       split?: boolean
@@ -696,7 +696,7 @@ export const NodeTransforms = {
   unwrapNodes(
     editor: IEditor,
     options: {
-      at?: ILocation
+      at?: Location
       match?: (node: Node) => boolean
       mode?: 'all' | 'highest' | 'lowest'
       split?: boolean
@@ -756,7 +756,7 @@ export const NodeTransforms = {
     editor: IEditor,
     element: IElement,
     options: {
-      at?: ILocation
+      at?: Location
       match?: (node: Node) => boolean
       mode?: 'all' | 'highest' | 'lowest'
       split?: boolean
