@@ -4,6 +4,7 @@ import {
   IElement,
   Element,
   ILocation,
+  INode,
   Node,
   Path,
   Point,
@@ -22,10 +23,10 @@ export const NodeTransforms = {
 
   insertNodes(
     editor: IEditor,
-    nodes: Node | Node[],
+    nodes: INode | INode[],
     options: {
       at?: ILocation
-      match?: (node: Node) => boolean
+      match?: (node: INode) => boolean
       mode?: 'highest' | 'lowest'
       hanging?: boolean
       select?: boolean
@@ -142,7 +143,7 @@ export const NodeTransforms = {
     editor: IEditor,
     options: {
       at?: ILocation
-      match?: (node: Node) => boolean
+      match?: (node: INode) => boolean
       mode?: 'all' | 'highest' | 'lowest'
       voids?: boolean
     } = {}
@@ -206,7 +207,7 @@ export const NodeTransforms = {
     editor: IEditor,
     options: {
       at?: ILocation
-      match?: (node: Node) => boolean
+      match?: (node: INode) => boolean
       mode?: 'highest' | 'lowest'
       hanging?: boolean
       voids?: boolean
@@ -345,7 +346,7 @@ export const NodeTransforms = {
     editor: IEditor,
     options: {
       at?: ILocation
-      match?: (node: Node) => boolean
+      match?: (node: INode) => boolean
       mode?: 'all' | 'highest' | 'lowest'
       to: Path
       voids?: boolean
@@ -395,7 +396,7 @@ export const NodeTransforms = {
     editor: IEditor,
     options: {
       at?: ILocation
-      match?: (node: Node) => boolean
+      match?: (node: INode) => boolean
       mode?: 'highest' | 'lowest'
       hanging?: boolean
       voids?: boolean
@@ -439,10 +440,10 @@ export const NodeTransforms = {
 
   setNodes(
     editor: IEditor,
-    props: Partial<Node>,
+    props: Partial<INode>,
     options: {
       at?: ILocation
-      match?: (node: Node) => boolean
+      match?: (node: INode) => boolean
       mode?: 'all' | 'highest' | 'lowest'
       hanging?: boolean
       split?: boolean
@@ -501,8 +502,8 @@ export const NodeTransforms = {
         mode,
         voids,
       })) {
-        const properties: Partial<Node> = {}
-        const newProperties: Partial<Node> = {}
+        const properties: Partial<INode> = {}
+        const newProperties: Partial<INode> = {}
 
         // You can't set properties on the editor node.
         if (path.length === 0) {
@@ -540,7 +541,7 @@ export const NodeTransforms = {
     editor: IEditor,
     options: {
       at?: ILocation
-      match?: (node: Node) => boolean
+      match?: (node: INode) => boolean
       mode?: 'highest' | 'lowest'
       always?: boolean
       height?: number
@@ -669,7 +670,7 @@ export const NodeTransforms = {
     props: string | string[],
     options: {
       at?: ILocation
-      match?: (node: Node) => boolean
+      match?: (node: INode) => boolean
       mode?: 'all' | 'highest' | 'lowest'
       split?: boolean
       voids?: boolean
@@ -697,7 +698,7 @@ export const NodeTransforms = {
     editor: IEditor,
     options: {
       at?: ILocation
-      match?: (node: Node) => boolean
+      match?: (node: INode) => boolean
       mode?: 'all' | 'highest' | 'lowest'
       split?: boolean
       voids?: boolean
@@ -757,7 +758,7 @@ export const NodeTransforms = {
     element: IElement,
     options: {
       at?: ILocation
-      match?: (node: Node) => boolean
+      match?: (node: INode) => boolean
       mode?: 'all' | 'highest' | 'lowest'
       split?: boolean
       voids?: boolean
@@ -863,7 +864,7 @@ const deleteRange = (editor: IEditor, range: Range): Point | null => {
   }
 }
 
-const matchPath = (editor: IEditor, path: Path): ((node: Node) => boolean) => {
+const matchPath = (editor: IEditor, path: Path): ((node: INode) => boolean) => {
   const [node] = Editor.node(editor, path)
   return n => n === node
 }

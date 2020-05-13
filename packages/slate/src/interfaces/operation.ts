@@ -1,10 +1,10 @@
-import { Node, Path, Range } from '..'
+import { INode, Node, Path, Range } from '..'
 import isPlainObject from 'is-plain-object'
 
 export type InsertNodeOperation = {
   type: 'insert_node'
   path: Path
-  node: Node
+  node: INode
   [key: string]: unknown
 }
 
@@ -21,7 +21,7 @@ export type MergeNodeOperation = {
   path: Path
   position: number
   target: number | null
-  properties: Partial<Node>
+  properties: Partial<INode>
   [key: string]: unknown
 }
 
@@ -35,7 +35,7 @@ export type MoveNodeOperation = {
 export type RemoveNodeOperation = {
   type: 'remove_node'
   path: Path
-  node: Node
+  node: INode
   [key: string]: unknown
 }
 
@@ -50,8 +50,8 @@ export type RemoveTextOperation = {
 export type SetNodeOperation = {
   type: 'set_node'
   path: Path
-  properties: Partial<Node>
-  newProperties: Partial<Node>
+  properties: Partial<INode>
+  newProperties: Partial<INode>
   [key: string]: unknown
 }
 
@@ -80,7 +80,7 @@ export type SplitNodeOperation = {
   path: Path
   position: number
   target: number | null
-  properties: Partial<Node>
+  properties: Partial<INode>
   [key: string]: unknown
 }
 

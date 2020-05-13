@@ -1,5 +1,5 @@
 import isPlainObject from 'is-plain-object'
-import { Editor, Node, Path } from '..'
+import { Editor, INode, Node, Path } from '..'
 
 /**
  * `Element` objects are a type of node in a Slate document that contain other
@@ -8,7 +8,7 @@ import { Editor, Node, Path } from '..'
  */
 
 export interface IElement {
-  children: Node[]
+  children: INode[]
   [key: string]: unknown
 }
 
