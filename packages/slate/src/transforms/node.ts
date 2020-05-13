@@ -1,4 +1,5 @@
 import {
+  IEditor,
   Editor,
   IElement,
   Element,
@@ -20,7 +21,7 @@ export const NodeTransforms = {
    */
 
   insertNodes(
-    editor: Editor,
+    editor: IEditor,
     nodes: Node | Node[],
     options: {
       at?: Location
@@ -138,7 +139,7 @@ export const NodeTransforms = {
    */
 
   liftNodes(
-    editor: Editor,
+    editor: IEditor,
     options: {
       at?: Location
       match?: (node: Node) => boolean
@@ -202,7 +203,7 @@ export const NodeTransforms = {
    */
 
   mergeNodes(
-    editor: Editor,
+    editor: IEditor,
     options: {
       at?: Location
       match?: (node: Node) => boolean
@@ -341,7 +342,7 @@ export const NodeTransforms = {
    */
 
   moveNodes(
-    editor: Editor,
+    editor: IEditor,
     options: {
       at?: Location
       match?: (node: Node) => boolean
@@ -391,7 +392,7 @@ export const NodeTransforms = {
    */
 
   removeNodes(
-    editor: Editor,
+    editor: IEditor,
     options: {
       at?: Location
       match?: (node: Node) => boolean
@@ -437,7 +438,7 @@ export const NodeTransforms = {
    */
 
   setNodes(
-    editor: Editor,
+    editor: IEditor,
     props: Partial<Node>,
     options: {
       at?: Location
@@ -536,7 +537,7 @@ export const NodeTransforms = {
    */
 
   splitNodes(
-    editor: Editor,
+    editor: IEditor,
     options: {
       at?: Location
       match?: (node: Node) => boolean
@@ -664,7 +665,7 @@ export const NodeTransforms = {
    */
 
   unsetNodes(
-    editor: Editor,
+    editor: IEditor,
     props: string | string[],
     options: {
       at?: Location
@@ -693,7 +694,7 @@ export const NodeTransforms = {
    */
 
   unwrapNodes(
-    editor: Editor,
+    editor: IEditor,
     options: {
       at?: Location
       match?: (node: Node) => boolean
@@ -752,7 +753,7 @@ export const NodeTransforms = {
    */
 
   wrapNodes(
-    editor: Editor,
+    editor: IEditor,
     element: IElement,
     options: {
       at?: Location
@@ -851,7 +852,7 @@ export const NodeTransforms = {
  * Convert a range into a point by deleting it's content.
  */
 
-const deleteRange = (editor: Editor, range: Range): Point | null => {
+const deleteRange = (editor: IEditor, range: Range): Point | null => {
   if (Range.isCollapsed(range)) {
     return range.anchor
   } else {
@@ -862,7 +863,7 @@ const deleteRange = (editor: Editor, range: Range): Point | null => {
   }
 }
 
-const matchPath = (editor: Editor, path: Path): ((node: Node) => boolean) => {
+const matchPath = (editor: IEditor, path: Path): ((node: Node) => boolean) => {
   const [node] = Editor.node(editor, path)
   return n => n === node
 }

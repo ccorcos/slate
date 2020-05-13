@@ -1,4 +1,4 @@
-import { Editor, Location, Point, Range, Transforms } from '..'
+import { IEditor, Editor, Location, Point, Range, Transforms } from '..'
 
 export const SelectionTransforms = {
   /**
@@ -6,7 +6,7 @@ export const SelectionTransforms = {
    */
 
   collapse(
-    editor: Editor,
+    editor: IEditor,
     options: {
       edge?: 'anchor' | 'focus' | 'start' | 'end'
     } = {}
@@ -33,7 +33,7 @@ export const SelectionTransforms = {
    * Unset the selection.
    */
 
-  deselect(editor: Editor) {
+  deselect(editor: IEditor) {
     const { selection } = editor
 
     if (selection) {
@@ -50,7 +50,7 @@ export const SelectionTransforms = {
    */
 
   move(
-    editor: Editor,
+    editor: IEditor,
     options: {
       distance?: number
       unit?: 'offset' | 'character' | 'word' | 'line'
@@ -105,7 +105,7 @@ export const SelectionTransforms = {
    * Set the selection to a new value.
    */
 
-  select(editor: Editor, target: Location) {
+  select(editor: IEditor, target: Location) {
     const { selection } = editor
     target = Editor.range(editor, target)
 
@@ -134,7 +134,7 @@ export const SelectionTransforms = {
    */
 
   setPoint(
-    editor: Editor,
+    editor: IEditor,
     props: Partial<Point>,
     options: {
       edge?: 'anchor' | 'focus' | 'start' | 'end'
@@ -167,7 +167,7 @@ export const SelectionTransforms = {
    * Set new properties on the selection.
    */
 
-  setSelection(editor: Editor, props: Partial<Range>) {
+  setSelection(editor: IEditor, props: Partial<Range>) {
     const { selection } = editor
     const oldProps: Partial<Range> | null = {}
     const newProps: Partial<Range> = {}

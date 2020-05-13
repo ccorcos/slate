@@ -1,5 +1,6 @@
 import {
   Descendant,
+  IEditor,
   Editor,
   Element,
   Node,
@@ -19,8 +20,8 @@ import { DIRTY_PATHS, FLUSHING } from './utils/weak-maps'
  * Create a new Slate `Editor` object.
  */
 
-export const createEditor = (): Editor => {
-  const editor: Editor = {
+export const createEditor = (): IEditor => {
+  const editor: IEditor = {
     children: [],
     operations: [],
     selection: null,

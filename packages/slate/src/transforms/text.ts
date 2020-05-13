@@ -1,4 +1,5 @@
 import {
+  IEditor,
   Editor,
   Element,
   Location,
@@ -17,7 +18,7 @@ export const TextTransforms = {
    */
 
   delete(
-    editor: Editor,
+    editor: IEditor,
     options: {
       at?: Location
       distance?: number
@@ -189,7 +190,7 @@ export const TextTransforms = {
    */
 
   insertFragment(
-    editor: Editor,
+    editor: IEditor,
     fragment: Node[],
     options: {
       at?: Location
@@ -404,7 +405,7 @@ export const TextTransforms = {
    */
 
   insertText(
-    editor: Editor,
+    editor: IEditor,
     text: string,
     options: {
       at?: Location

@@ -1,6 +1,7 @@
 import { createDraft, finishDraft, isDraft } from 'immer'
 import {
   Node,
+  IEditor,
   Editor,
   Range,
   Point,
@@ -19,7 +20,7 @@ export const GeneralTransforms = {
    * Transform the editor by an operation.
    */
 
-  transform(editor: Editor, op: Operation) {
+  transform(editor: IEditor, op: Operation) {
     editor.children = createDraft(editor.children)
     let selection = editor.selection && createDraft(editor.selection)
 

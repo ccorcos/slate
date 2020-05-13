@@ -1,5 +1,6 @@
 import { produce } from 'immer'
 import {
+  IEditor,
   Editor,
   IElement,
   Element,
@@ -15,7 +16,7 @@ import {
  * occur in a Slate document tree.
  */
 
-export type Node = Editor | IElement | IText
+export type Node = IEditor | IElement | IText
 
 export const Node = {
   /**
@@ -516,7 +517,7 @@ export type Descendant = IElement | IText
  * than the more generic `Node` union.
  */
 
-export type Ancestor = Editor | IElement
+export type Ancestor = IEditor | IElement
 
 /**
  * `NodeEntry` objects are returned when iterating over the nodes in a Slate

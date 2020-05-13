@@ -35,7 +35,7 @@ import { getWordDistance, getCharacterDistance } from '../utils/string'
  * by plugins that wish to add their own helpers and implement new behaviors.
  */
 
-export interface Editor {
+export interface IEditor {
   children: Node[]
   selection: Range | null
   operations: Operation[]
@@ -68,7 +68,7 @@ export const Editor = {
    */
 
   above<T extends Ancestor>(
-    editor: Editor,
+    editor: IEditor,
     options: {
       at?: Location
       match?: NodeMatch<T>
@@ -109,7 +109,7 @@ export const Editor = {
    * `editor.marks` property instead, and applied when text is inserted next.
    */
 
-  addMark(editor: Editor, key: string, value: any): void {
+  addMark(editor: IEditor, key: string, value: any): void {
     editor.addMark(key, value)
   },
 
@@ -118,7 +118,7 @@ export const Editor = {
    */
 
   after(
-    editor: Editor,
+    editor: IEditor,
     at: Location,
     options: {
       distance?: number
@@ -152,7 +152,7 @@ export const Editor = {
    */
 
   before(
-    editor: Editor,
+    editor: IEditor,
     at: Location,
     options: {
       distance?: number
@@ -190,7 +190,7 @@ export const Editor = {
    */
 
   deleteBackward(
-    editor: Editor,
+    editor: IEditor,
     options: {
       unit?: 'character' | 'word' | 'line' | 'block'
     } = {}
@@ -204,7 +204,7 @@ export const Editor = {
    */
 
   deleteForward(
-    editor: Editor,
+    editor: IEditor,
     options: {
       unit?: 'character' | 'word' | 'line' | 'block'
     } = {}
@@ -217,7 +217,7 @@ export const Editor = {
    * Delete the content in the current selection.
    */
 
-  deleteFragment(editor: Editor): void {
+  deleteFragment(editor: IEditor): void {
     editor.deleteFragment()
   },
 
@@ -225,7 +225,7 @@ export const Editor = {
    * Get the start and end points of a location.
    */
 
-  edges(editor: Editor, at: Location): [Point, Point] {
+  edges(editor: IEditor, at: Location): [Point, Point] {
     return [Editor.start(editor, at), Editor.end(editor, at)]
   },
 
@@ -233,7 +233,7 @@ export const Editor = {
    * Get the end point of a location.
    */
 
-  end(editor: Editor, at: Location): Point {
+  end(editor: IEditor, at: Location): Point {
     return Editor.point(editor, at, { edge: 'end' })
   },
 
@@ -241,7 +241,7 @@ export const Editor = {
    * Get the first node at a location.
    */
 
-  first(editor: Editor, at: Location): NodeEntry {
+  first(editor: IEditor, at: Location): NodeEntry {
     const path = Editor.path(editor, at, { edge: 'start' })
     return Editor.node(editor, path)
   },
@@ -250,7 +250,7 @@ export const Editor = {
    * Get the fragment at a location.
    */
 
-  fragment(editor: Editor, at: Location): Descendant[] {
+  fragment(editor: IEditor, at: Location): Descendant[] {
     const range = Editor.range(editor, at)
     const fragment = Node.fragment(editor, range)
     return fragment
@@ -259,7 +259,7 @@ export const Editor = {
    * Check if a node has block children.
    */
 
-  hasBlocks(editor: Editor, element: IElement): boolean {
+  hasBlocks(editor: IEditor, element: IElement): boolean {
     return element.children.some(n => Editor.isBlock(editor, n))
   },
 
@@ -267,7 +267,7 @@ export const Editor = {
    * Check if a node has inline and text children.
    */
 
-  hasInlines(editor: Editor, element: IElement): boolean {
+  hasInlines(editor: IEditor, element: IElement): boolean {
     return element.children.some(
       n => Text.isText(n) || Editor.isInline(editor, n)
     )
@@ -277,7 +277,7 @@ export const Editor = {
    * Check if a node has text children.
    */
 
-  hasTexts(editor: Editor, element: IElement): boolean {
+  hasTexts(editor: IEditor, element: IElement): boolean {
     return element.children.every(n => Text.isText(n))
   },
 
@@ -287,7 +287,7 @@ export const Editor = {
    * If the selection is currently expanded, it will be deleted first.
    */
 
-  insertBreak(editor: Editor): void {
+  insertBreak(editor: IEditor): void {
     editor.insertBreak()
   },
 
@@ -297,7 +297,7 @@ export const Editor = {
    * If the selection is currently expanded, it will be deleted first.
    */
 
-  insertFragment(editor: Editor, fragment: Node[]): void {
+  insertFragment(editor: IEditor, fragment: Node[]): void {
     editor.insertFragment(fragment)
   },
 
@@ -307,7 +307,7 @@ export const Editor = {
    * If the selection is currently expanded, it will be deleted first.
    */
 
-  insertNode(editor: Editor, node: Node): void {
+  insertNode(editor: IEditor, node: Node): void {
     editor.insertNode(node)
   },
 
@@ -317,7 +317,7 @@ export const Editor = {
    * If the selection is currently expanded, it will be deleted first.
    */
 
-  insertText(editor: Editor, text: string): void {
+  insertText(editor: IEditor, text: string): void {
     editor.insertText(text)
   },
 
@@ -325,7 +325,7 @@ export const Editor = {
    * Check if a value is a block `Element` object.
    */
 
-  isBlock(editor: Editor, value: any): value is IElement {
+  isBlock(editor: IEditor, value: any): value is IElement {
     return Element.isElement(value) && !editor.isInline(value)
   },
 
@@ -333,7 +333,7 @@ export const Editor = {
    * Check if a value is an `Editor` object.
    */
 
-  isEditor(value: any): value is Editor {
+  isEditor(value: any): value is IEditor {
     return (
       isPlainObject(value) &&
       typeof value.addMark === 'function' &&
@@ -361,7 +361,7 @@ export const Editor = {
    * Check if a point is the end point of a location.
    */
 
-  isEnd(editor: Editor, point: Point, at: Location): boolean {
+  isEnd(editor: IEditor, point: Point, at: Location): boolean {
     const end = Editor.end(editor, at)
     return Point.equals(point, end)
   },
@@ -370,7 +370,7 @@ export const Editor = {
    * Check if a point is an edge of a location.
    */
 
-  isEdge(editor: Editor, point: Point, at: Location): boolean {
+  isEdge(editor: IEditor, point: Point, at: Location): boolean {
     return Editor.isStart(editor, point, at) || Editor.isEnd(editor, point, at)
   },
 
@@ -378,7 +378,7 @@ export const Editor = {
    * Check if an element is empty, accounting for void nodes.
    */
 
-  isEmpty(editor: Editor, element: IElement): boolean {
+  isEmpty(editor: IEditor, element: IElement): boolean {
     const { children } = element
     const [first] = children
     return (
@@ -394,7 +394,7 @@ export const Editor = {
    * Check if a value is an inline `Element` object.
    */
 
-  isInline(editor: Editor, value: any): value is IElement {
+  isInline(editor: IEditor, value: any): value is IElement {
     return Element.isElement(value) && editor.isInline(value)
   },
 
@@ -402,7 +402,7 @@ export const Editor = {
    * Check if the editor is currently normalizing after each operation.
    */
 
-  isNormalizing(editor: Editor): boolean {
+  isNormalizing(editor: IEditor): boolean {
     const isNormalizing = NORMALIZING.get(editor)
     return isNormalizing === undefined ? true : isNormalizing
   },
@@ -411,7 +411,7 @@ export const Editor = {
    * Check if a point is the start point of a location.
    */
 
-  isStart(editor: Editor, point: Point, at: Location): boolean {
+  isStart(editor: IEditor, point: Point, at: Location): boolean {
     // PERF: If the offset isn't `0` we know it's not the start.
     if (point.offset !== 0) {
       return false
@@ -425,7 +425,7 @@ export const Editor = {
    * Check if a value is a void `Element` object.
    */
 
-  isVoid(editor: Editor, value: any): value is IElement {
+  isVoid(editor: IEditor, value: any): value is IElement {
     return Element.isElement(value) && editor.isVoid(value)
   },
 
@@ -433,7 +433,7 @@ export const Editor = {
    * Get the last node at a location.
    */
 
-  last(editor: Editor, at: Location): NodeEntry {
+  last(editor: IEditor, at: Location): NodeEntry {
     const path = Editor.path(editor, at, { edge: 'end' })
     return Editor.node(editor, path)
   },
@@ -443,7 +443,7 @@ export const Editor = {
    */
 
   leaf(
-    editor: Editor,
+    editor: IEditor,
     at: Location,
     options: {
       depth?: number
@@ -460,7 +460,7 @@ export const Editor = {
    */
 
   *levels<T extends Node>(
-    editor: Editor,
+    editor: IEditor,
     options: {
       at?: Location
       match?: NodeMatch<T>
@@ -505,7 +505,7 @@ export const Editor = {
    * Get the marks that would be added to text at the current selection.
    */
 
-  marks(editor: Editor): Record<string, any> | null {
+  marks(editor: IEditor): Record<string, any> | null {
     const { marks, selection } = editor
 
     if (!selection) {
@@ -557,7 +557,7 @@ export const Editor = {
    */
 
   next<T extends Node>(
-    editor: Editor,
+    editor: IEditor,
     options: {
       at?: Location
       match?: NodeMatch<T>
@@ -598,7 +598,7 @@ export const Editor = {
    */
 
   node(
-    editor: Editor,
+    editor: IEditor,
     at: Location,
     options: {
       depth?: number
@@ -615,7 +615,7 @@ export const Editor = {
    */
 
   *nodes<T extends Node>(
-    editor: Editor,
+    editor: IEditor,
     options: {
       at?: Location | Span
       match?: NodeMatch<T>
@@ -725,13 +725,13 @@ export const Editor = {
    */
 
   normalize(
-    editor: Editor,
+    editor: IEditor,
     options: {
       force?: boolean
     } = {}
   ) {
     const { force = false } = options
-    const getDirtyPaths = (editor: Editor) => {
+    const getDirtyPaths = (editor: IEditor) => {
       return DIRTY_PATHS.get(editor) || []
     }
 
@@ -772,7 +772,7 @@ export const Editor = {
    */
 
   parent(
-    editor: Editor,
+    editor: IEditor,
     at: Location,
     options: {
       depth?: number
@@ -790,7 +790,7 @@ export const Editor = {
    */
 
   path(
-    editor: Editor,
+    editor: IEditor,
     at: Location,
     options: {
       depth?: number
@@ -836,7 +836,7 @@ export const Editor = {
    */
 
   pathRef(
-    editor: Editor,
+    editor: IEditor,
     path: Path,
     options: {
       affinity?: 'backward' | 'forward' | null
@@ -864,7 +864,7 @@ export const Editor = {
    * Get the set of currently tracked path refs of the editor.
    */
 
-  pathRefs(editor: Editor): Set<PathRef> {
+  pathRefs(editor: IEditor): Set<PathRef> {
     let refs = PATH_REFS.get(editor)
 
     if (!refs) {
@@ -880,7 +880,7 @@ export const Editor = {
    */
 
   point(
-    editor: Editor,
+    editor: IEditor,
     at: Location,
     options: {
       edge?: 'start' | 'end'
@@ -924,7 +924,7 @@ export const Editor = {
    */
 
   pointRef(
-    editor: Editor,
+    editor: IEditor,
     point: Point,
     options: {
       affinity?: 'backward' | 'forward' | null
@@ -952,7 +952,7 @@ export const Editor = {
    * Get the set of currently tracked point refs of the editor.
    */
 
-  pointRefs(editor: Editor): Set<PointRef> {
+  pointRefs(editor: IEditor): Set<PointRef> {
     let refs = POINT_REFS.get(editor)
 
     if (!refs) {
@@ -976,7 +976,7 @@ export const Editor = {
    */
 
   *positions(
-    editor: Editor,
+    editor: IEditor,
     options: {
       at?: Location
       unit?: 'offset' | 'character' | 'word' | 'line' | 'block'
@@ -1090,7 +1090,7 @@ export const Editor = {
    */
 
   previous<T extends Node>(
-    editor: Editor,
+    editor: IEditor,
     options: {
       at?: Location
       match?: NodeMatch<T>
@@ -1137,7 +1137,7 @@ export const Editor = {
    * Get a range of a location.
    */
 
-  range(editor: Editor, at: Location, to?: Location): Range {
+  range(editor: IEditor, at: Location, to?: Location): Range {
     if (Range.isRange(at) && !to) {
       return at
     }
@@ -1153,7 +1153,7 @@ export const Editor = {
    */
 
   rangeRef(
-    editor: Editor,
+    editor: IEditor,
     range: Range,
     options: {
       affinity?: 'backward' | 'forward' | 'outward' | 'inward' | null
@@ -1181,7 +1181,7 @@ export const Editor = {
    * Get the set of currently tracked range refs of the editor.
    */
 
-  rangeRefs(editor: Editor): Set<RangeRef> {
+  rangeRefs(editor: IEditor): Set<RangeRef> {
     let refs = RANGE_REFS.get(editor)
 
     if (!refs) {
@@ -1200,7 +1200,7 @@ export const Editor = {
    * `editor.marks` and applied to the text inserted next.
    */
 
-  removeMark(editor: Editor, key: string): void {
+  removeMark(editor: IEditor, key: string): void {
     editor.removeMark(key)
   },
 
@@ -1208,7 +1208,7 @@ export const Editor = {
    * Get the start point of a location.
    */
 
-  start(editor: Editor, at: Location): Point {
+  start(editor: IEditor, at: Location): Point {
     return Editor.point(editor, at, { edge: 'start' })
   },
 
@@ -1219,7 +1219,7 @@ export const Editor = {
    * of what their actual content is.
    */
 
-  string(editor: Editor, at: Location): string {
+  string(editor: IEditor, at: Location): string {
     const range = Editor.range(editor, at)
     const [start, end] = Range.edges(range)
     let text = ''
@@ -1248,7 +1248,7 @@ export const Editor = {
    * Transform the editor by an operation.
    */
 
-  transform(editor: Editor, op: Operation) {
+  transform(editor: IEditor, op: Operation) {
     editor.children = createDraft(editor.children)
     let selection = editor.selection && createDraft(editor.selection)
 
@@ -1518,7 +1518,7 @@ export const Editor = {
    */
 
   unhangRange(
-    editor: Editor,
+    editor: IEditor,
     range: Range,
     options: {
       voids?: boolean
@@ -1566,7 +1566,7 @@ export const Editor = {
    */
 
   void(
-    editor: Editor,
+    editor: IEditor,
     options: {
       at?: Location
       mode?: 'highest' | 'lowest'
@@ -1583,7 +1583,7 @@ export const Editor = {
    * Call a function, deferring normalization until after it completes.
    */
 
-  withoutNormalizing(editor: Editor, fn: () => void): void {
+  withoutNormalizing(editor: IEditor, fn: () => void): void {
     const value = Editor.isNormalizing(editor)
     NORMALIZING.set(editor, false)
     fn()
