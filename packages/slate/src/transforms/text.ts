@@ -3,7 +3,6 @@ import {
   Editor,
   Element,
   ILocation,
-  INode,
   Node,
   NodeEntry,
   Path,
@@ -192,7 +191,7 @@ export const TextTransforms = {
 
   insertFragment(
     editor: IEditor,
-    fragment: INode[],
+    fragment: Node[],
     options: {
       at?: ILocation
       hanging?: boolean

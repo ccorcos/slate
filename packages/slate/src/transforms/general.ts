@@ -1,8 +1,8 @@
 import { createDraft, finishDraft, isDraft } from 'immer'
 import {
-  INode,
   Node,
   IEditor,
+  Editor,
   Range,
   Point,
   IText,
@@ -274,7 +274,7 @@ export const GeneralTransforms = {
       }
     }
 
-    editor.children = finishDraft(editor.children) as INode[]
+    editor.children = finishDraft(editor.children) as Node[]
 
     if (selection) {
       editor.selection = isDraft(selection)

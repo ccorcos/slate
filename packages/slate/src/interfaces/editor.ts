@@ -8,7 +8,6 @@ import {
   IElement,
   Element,
   ILocation,
-  INode,
   Node,
   NodeEntry,
   Operation,
@@ -38,7 +37,7 @@ import { getWordDistance, getCharacterDistance } from '../utils/string'
  */
 
 export interface IEditor {
-  children: INode[]
+  children: Node[]
   selection: Range | null
   operations: Operation[]
   marks: Record<string, any> | null
@@ -58,8 +57,8 @@ export interface IEditor {
   deleteFragment: () => void
   getFragment: () => Descendant[]
   insertBreak: () => void
-  insertFragment: (fragment: INode[]) => void
-  insertNode: (node: INode) => void
+  insertFragment: (fragment: Node[]) => void
+  insertNode: (node: Node) => void
   insertText: (text: string) => void
   removeMark: (key: string) => void
 }
@@ -299,7 +298,7 @@ export const Editor = {
    * If the selection is currently expanded, it will be deleted first.
    */
 
-  insertFragment(editor: IEditor, fragment: INode[]): void {
+  insertFragment(editor: IEditor, fragment: Node[]): void {
     editor.insertFragment(fragment)
   },
 
@@ -309,7 +308,7 @@ export const Editor = {
    * If the selection is currently expanded, it will be deleted first.
    */
 
-  insertNode(editor: IEditor, node: INode): void {
+  insertNode(editor: IEditor, node: Node): void {
     editor.insertNode(node)
   },
 
@@ -461,7 +460,7 @@ export const Editor = {
    * Iterate through all of the levels at a location.
    */
 
-  *levels<T extends INode>(
+  *levels<T extends Node>(
     editor: IEditor,
     options: {
       at?: ILocation
@@ -558,7 +557,7 @@ export const Editor = {
    * Get the matching node in the branch of the document after a location.
    */
 
-  next<T extends INode>(
+  next<T extends Node>(
     editor: IEditor,
     options: {
       at?: ILocation
@@ -616,7 +615,7 @@ export const Editor = {
    * Iterate through all of the nodes in the Editor.
    */
 
-  *nodes<T extends INode>(
+  *nodes<T extends Node>(
     editor: IEditor,
     options: {
       at?: ILocation | ISpan
@@ -1091,7 +1090,7 @@ export const Editor = {
    * Get the matching node in the branch of the document before a location.
    */
 
-  previous<T extends INode>(
+  previous<T extends Node>(
     editor: IEditor,
     options: {
       at?: ILocation
@@ -1504,7 +1503,7 @@ export const Editor = {
       }
     }
 
-    editor.children = finishDraft(editor.children) as INode[]
+    editor.children = finishDraft(editor.children) as Node[]
 
     if (selection) {
       editor.selection = isDraft(selection)
@@ -1598,6 +1597,6 @@ export const Editor = {
  * A helper type for narrowing matched nodes with a predicate.
  */
 
-type NodeMatch<T extends INode> =
-  | ((node: INode) => node is T)
-  | ((node: INode) => boolean)
+type NodeMatch<T extends Node> =
+  | ((node: Node) => node is T)
+  | ((node: Node) => boolean)

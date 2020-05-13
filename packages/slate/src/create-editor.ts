@@ -3,7 +3,6 @@ import {
   IEditor,
   Editor,
   Element,
-  INode,
   Node,
   NodeEntry,
   Operation,
@@ -150,11 +149,11 @@ export const createEditor = (): IEditor => {
       Transforms.splitNodes(editor, { always: true })
     },
 
-    insertFragment: (fragment: INode[]) => {
+    insertFragment: (fragment: Node[]) => {
       Transforms.insertFragment(editor, fragment)
     },
 
-    insertNode: (node: INode) => {
+    insertNode: (node: Node) => {
       Transforms.insertNodes(editor, node)
     },
 

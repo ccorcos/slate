@@ -16,14 +16,14 @@ import {
  * occur in a Slate document tree.
  */
 
-export type INode = IEditor | IElement | IText
+export type Node = IEditor | IElement | IText
 
 export const Node = {
   /**
    * Get the node at a specific path, asserting that it's an ancestor node.
    */
 
-  ancestor(root: INode, path: Path): Ancestor {
+  ancestor(root: Node, path: Path): Ancestor {
     const node = Node.get(root, path)
 
     if (Text.isText(node)) {
@@ -43,7 +43,7 @@ export const Node = {
    */
 
   *ancestors(
-    root: INode,
+    root: Node,
     path: Path,
     options: {
       reverse?: boolean
@@ -60,7 +60,7 @@ export const Node = {
    * Get the child of a node at a specific index.
    */
 
-  child(root: INode, index: number): Descendant {
+  child(root: Node, index: number): Descendant {
     if (Text.isText(root)) {
       throw new Error(
         `Cannot get the child of a text node: ${JSON.stringify(root)}`
@@ -85,7 +85,7 @@ export const Node = {
    */
 
   *children(
-    root: INode,
+    root: Node,
     path: Path,
     options: {
       reverse?: boolean
@@ -108,7 +108,7 @@ export const Node = {
    * Get an entry for the common ancesetor node of two paths.
    */
 
-  common(root: INode, path: Path, another: Path): NodeEntry {
+  common(root: Node, path: Path, another: Path): NodeEntry {
     const p = Path.common(path, another)
     const n = Node.get(root, p)
     return [n, p]
@@ -118,7 +118,7 @@ export const Node = {
    * Get the node at a specific path, asserting that it's a descendant node.
    */
 
-  descendant(root: INode, path: Path): Descendant {
+  descendant(root: Node, path: Path): Descendant {
     const node = Node.get(root, path)
 
     if (Editor.isEditor(node)) {
@@ -135,7 +135,7 @@ export const Node = {
    */
 
   *descendants(
-    root: INode,
+    root: Node,
     options: {
       from?: Path
       to?: Path
@@ -159,7 +159,7 @@ export const Node = {
    */
 
   *elements(
-    root: INode,
+    root: Node,
     options: {
       from?: Path
       to?: Path
@@ -178,7 +178,7 @@ export const Node = {
    * Get the first node entry in a root node from a path.
    */
 
-  first(root: INode, path: Path): NodeEntry {
+  first(root: Node, path: Path): NodeEntry {
     const p = path.slice()
     let n = Node.get(root, p)
 
@@ -198,7 +198,7 @@ export const Node = {
    * Get the sliced fragment represented by a range inside a root node.
    */
 
-  fragment(root: INode, range: Range): Descendant[] {
+  fragment(root: Node, range: Range): Descendant[] {
     if (Text.isText(root)) {
       throw new Error(
         `Cannot get a fragment starting from a root text node: ${JSON.stringify(
@@ -243,7 +243,7 @@ export const Node = {
    * empty array, it refers to the root node itself.
    */
 
-  get(root: INode, path: Path): INode {
+  get(root: Node, path: Path): Node {
     let node = root
 
     for (let i = 0; i < path.length; i++) {
@@ -267,7 +267,7 @@ export const Node = {
    * Check if a descendant node exists at a specific path.
    */
 
-  has(root: INode, path: Path): boolean {
+  has(root: Node, path: Path): boolean {
     let node = root
 
     for (let i = 0; i < path.length; i++) {
@@ -287,7 +287,7 @@ export const Node = {
    * Check if a value implements the `Node` interface.
    */
 
-  isNode(value: any): value is INode {
+  isNode(value: any): value is Node {
     return (
       Text.isText(value) || Element.isElement(value) || Editor.isEditor(value)
     )
@@ -297,7 +297,7 @@ export const Node = {
    * Check if a value is a list of `Node` objects.
    */
 
-  isNodeList(value: any): value is INode[] {
+  isNodeList(value: any): value is Node[] {
     return Array.isArray(value) && (value.length === 0 || Node.isNode(value[0]))
   },
 
@@ -305,7 +305,7 @@ export const Node = {
    * Get the lash node entry in a root node from a path.
    */
 
-  last(root: INode, path: Path): NodeEntry {
+  last(root: Node, path: Path): NodeEntry {
     const p = path.slice()
     let n = Node.get(root, p)
 
@@ -326,7 +326,7 @@ export const Node = {
    * Get the node at a specific path, ensuring it's a leaf text node.
    */
 
-  leaf(root: INode, path: Path): IText {
+  leaf(root: Node, path: Path): IText {
     const node = Node.get(root, path)
 
     if (!Text.isText(node)) {
@@ -346,7 +346,7 @@ export const Node = {
    */
 
   *levels(
-    root: INode,
+    root: Node,
     path: Path,
     options: {
       reverse?: boolean
@@ -362,7 +362,7 @@ export const Node = {
    * Check if a node matches a set of props.
    */
 
-  matches(node: INode, props: Partial<INode>): boolean {
+  matches(node: Node, props: Partial<Node>): boolean {
     return (
       (Element.isElement(node) && Element.matches(node, props)) ||
       (Text.isText(node) && Text.matches(node, props))
@@ -376,7 +376,7 @@ export const Node = {
    */
 
   *nodes(
-    root: INode,
+    root: Node,
     options: {
       from?: Path
       to?: Path
@@ -453,7 +453,7 @@ export const Node = {
    * Get the parent of a node at a specific path.
    */
 
-  parent(root: INode, path: Path): Ancestor {
+  parent(root: Node, path: Path): Ancestor {
     const parentPath = Path.parent(path)
     const p = Node.get(root, parentPath)
 
@@ -474,7 +474,7 @@ export const Node = {
    * computations for a node.
    */
 
-  string(node: INode): string {
+  string(node: Node): string {
     if (Text.isText(node)) {
       return node.text
     } else {
@@ -487,7 +487,7 @@ export const Node = {
    */
 
   *texts(
-    root: INode,
+    root: Node,
     options: {
       from?: Path
       to?: Path
@@ -525,4 +525,4 @@ export type Ancestor = IEditor | IElement
  * node in the document.
  */
 
-export type NodeEntry<T extends INode = INode> = [T, Path]
+export type NodeEntry<T extends Node = Node> = [T, Path]
