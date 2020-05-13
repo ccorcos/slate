@@ -9,14 +9,14 @@ import { Path, Point, Range } from '..'
  * converting between the different interfaces in their own code base.
  */
 
-export type Location = Path | Point | Range
+export type ILocation = Path | Point | Range
 
 export const Location = {
   /**
    * Check if a value implements the `Location` interface.
    */
 
-  isLocation(value: any): value is Location {
+  isLocation(value: any): value is ILocation {
     return Path.isPath(value) || Point.isPoint(value) || Range.isRange(value)
   },
 }
@@ -26,14 +26,14 @@ export const Location = {
  * without using `Point` which requires leaf text nodes to be present.
  */
 
-export type Span = [Path, Path]
+export type ISpan = [Path, Path]
 
 export const Span = {
   /**
    * Check if a value implements the `Span` interface.
    */
 
-  isSpan(value: any): value is Span {
+  isSpan(value: any): value is ISpan {
     return (
       Array.isArray(value) && value.length === 2 && value.every(Path.isPath)
     )

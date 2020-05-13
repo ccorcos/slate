@@ -7,7 +7,7 @@ import {
   Descendant,
   IElement,
   Element,
-  Location,
+  ILocation,
   Node,
   NodeEntry,
   Operation,
@@ -17,6 +17,7 @@ import {
   PointRef,
   Range,
   RangeRef,
+  ISpan,
   Span,
   IText,
   Text,
@@ -70,7 +71,7 @@ export const Editor = {
   above<T extends Ancestor>(
     editor: IEditor,
     options: {
-      at?: Location
+      at?: ILocation
       match?: NodeMatch<T>
       mode?: 'highest' | 'lowest'
       voids?: boolean
@@ -119,7 +120,7 @@ export const Editor = {
 
   after(
     editor: IEditor,
-    at: Location,
+    at: ILocation,
     options: {
       distance?: number
       unit?: 'offset' | 'character' | 'word' | 'line' | 'block'
@@ -153,7 +154,7 @@ export const Editor = {
 
   before(
     editor: IEditor,
-    at: Location,
+    at: ILocation,
     options: {
       distance?: number
       unit?: 'offset' | 'character' | 'word' | 'line' | 'block'
@@ -225,7 +226,7 @@ export const Editor = {
    * Get the start and end points of a location.
    */
 
-  edges(editor: IEditor, at: Location): [Point, Point] {
+  edges(editor: IEditor, at: ILocation): [Point, Point] {
     return [Editor.start(editor, at), Editor.end(editor, at)]
   },
 
@@ -233,7 +234,7 @@ export const Editor = {
    * Get the end point of a location.
    */
 
-  end(editor: IEditor, at: Location): Point {
+  end(editor: IEditor, at: ILocation): Point {
     return Editor.point(editor, at, { edge: 'end' })
   },
 
@@ -241,7 +242,7 @@ export const Editor = {
    * Get the first node at a location.
    */
 
-  first(editor: IEditor, at: Location): NodeEntry {
+  first(editor: IEditor, at: ILocation): NodeEntry {
     const path = Editor.path(editor, at, { edge: 'start' })
     return Editor.node(editor, path)
   },
@@ -250,7 +251,7 @@ export const Editor = {
    * Get the fragment at a location.
    */
 
-  fragment(editor: IEditor, at: Location): Descendant[] {
+  fragment(editor: IEditor, at: ILocation): Descendant[] {
     const range = Editor.range(editor, at)
     const fragment = Node.fragment(editor, range)
     return fragment
@@ -361,7 +362,7 @@ export const Editor = {
    * Check if a point is the end point of a location.
    */
 
-  isEnd(editor: IEditor, point: Point, at: Location): boolean {
+  isEnd(editor: IEditor, point: Point, at: ILocation): boolean {
     const end = Editor.end(editor, at)
     return Point.equals(point, end)
   },
@@ -370,7 +371,7 @@ export const Editor = {
    * Check if a point is an edge of a location.
    */
 
-  isEdge(editor: IEditor, point: Point, at: Location): boolean {
+  isEdge(editor: IEditor, point: Point, at: ILocation): boolean {
     return Editor.isStart(editor, point, at) || Editor.isEnd(editor, point, at)
   },
 
@@ -411,7 +412,7 @@ export const Editor = {
    * Check if a point is the start point of a location.
    */
 
-  isStart(editor: IEditor, point: Point, at: Location): boolean {
+  isStart(editor: IEditor, point: Point, at: ILocation): boolean {
     // PERF: If the offset isn't `0` we know it's not the start.
     if (point.offset !== 0) {
       return false
@@ -433,7 +434,7 @@ export const Editor = {
    * Get the last node at a location.
    */
 
-  last(editor: IEditor, at: Location): NodeEntry {
+  last(editor: IEditor, at: ILocation): NodeEntry {
     const path = Editor.path(editor, at, { edge: 'end' })
     return Editor.node(editor, path)
   },
@@ -444,7 +445,7 @@ export const Editor = {
 
   leaf(
     editor: IEditor,
-    at: Location,
+    at: ILocation,
     options: {
       depth?: number
       edge?: 'start' | 'end'
@@ -462,7 +463,7 @@ export const Editor = {
   *levels<T extends Node>(
     editor: IEditor,
     options: {
-      at?: Location
+      at?: ILocation
       match?: NodeMatch<T>
       reverse?: boolean
       voids?: boolean
@@ -559,7 +560,7 @@ export const Editor = {
   next<T extends Node>(
     editor: IEditor,
     options: {
-      at?: Location
+      at?: ILocation
       match?: NodeMatch<T>
       mode?: 'all' | 'highest' | 'lowest'
       voids?: boolean
@@ -574,7 +575,7 @@ export const Editor = {
 
     const [, from] = Editor.last(editor, at)
     const [, to] = Editor.last(editor, [])
-    const span: Span = [from, to]
+    const span: ISpan = [from, to]
 
     if (Path.isPath(at) && at.length === 0) {
       throw new Error(`Cannot get the next node from the root node!`)
@@ -599,7 +600,7 @@ export const Editor = {
 
   node(
     editor: IEditor,
-    at: Location,
+    at: ILocation,
     options: {
       depth?: number
       edge?: 'start' | 'end'
@@ -617,7 +618,7 @@ export const Editor = {
   *nodes<T extends Node>(
     editor: IEditor,
     options: {
-      at?: Location | Span
+      at?: ILocation | ISpan
       match?: NodeMatch<T>
       mode?: 'all' | 'highest' | 'lowest'
       universal?: boolean
@@ -773,7 +774,7 @@ export const Editor = {
 
   parent(
     editor: IEditor,
-    at: Location,
+    at: ILocation,
     options: {
       depth?: number
       edge?: 'start' | 'end'
@@ -791,7 +792,7 @@ export const Editor = {
 
   path(
     editor: IEditor,
-    at: Location,
+    at: ILocation,
     options: {
       depth?: number
       edge?: 'start' | 'end'
@@ -881,7 +882,7 @@ export const Editor = {
 
   point(
     editor: IEditor,
-    at: Location,
+    at: ILocation,
     options: {
       edge?: 'start' | 'end'
     } = {}
@@ -978,7 +979,7 @@ export const Editor = {
   *positions(
     editor: IEditor,
     options: {
-      at?: Location
+      at?: ILocation
       unit?: 'offset' | 'character' | 'word' | 'line' | 'block'
       reverse?: boolean
     } = {}
@@ -1092,7 +1093,7 @@ export const Editor = {
   previous<T extends Node>(
     editor: IEditor,
     options: {
-      at?: Location
+      at?: ILocation
       match?: NodeMatch<T>
       mode?: 'all' | 'highest' | 'lowest'
       voids?: boolean
@@ -1107,7 +1108,7 @@ export const Editor = {
 
     const [, from] = Editor.first(editor, at)
     const [, to] = Editor.first(editor, [])
-    const span: Span = [from, to]
+    const span: ISpan = [from, to]
 
     if (Path.isPath(at) && at.length === 0) {
       throw new Error(`Cannot get the previous node from the root node!`)
@@ -1137,7 +1138,7 @@ export const Editor = {
    * Get a range of a location.
    */
 
-  range(editor: IEditor, at: Location, to?: Location): Range {
+  range(editor: IEditor, at: ILocation, to?: ILocation): Range {
     if (Range.isRange(at) && !to) {
       return at
     }
@@ -1208,7 +1209,7 @@ export const Editor = {
    * Get the start point of a location.
    */
 
-  start(editor: IEditor, at: Location): Point {
+  start(editor: IEditor, at: ILocation): Point {
     return Editor.point(editor, at, { edge: 'start' })
   },
 
@@ -1219,7 +1220,7 @@ export const Editor = {
    * of what their actual content is.
    */
 
-  string(editor: IEditor, at: Location): string {
+  string(editor: IEditor, at: ILocation): string {
     const range = Editor.range(editor, at)
     const [start, end] = Range.edges(range)
     let text = ''
@@ -1568,7 +1569,7 @@ export const Editor = {
   void(
     editor: IEditor,
     options: {
-      at?: Location
+      at?: ILocation
       mode?: 'highest' | 'lowest'
       voids?: boolean
     } = {}
