@@ -17,6 +17,7 @@ import {
   Range,
   RangeRef,
   Span,
+  IText,
   Text,
 } from '..'
 import {
@@ -447,7 +448,7 @@ export const Editor = {
       depth?: number
       edge?: 'start' | 'end'
     } = {}
-  ): NodeEntry<Text> {
+  ): NodeEntry<IText> {
     const path = Editor.path(editor, at, options)
     const node = Node.leaf(editor, path)
     return [node, path]
@@ -518,7 +519,7 @@ export const Editor = {
       const [match] = Editor.nodes(editor, { match: Text.isText })
 
       if (match) {
-        const [node] = match as NodeEntry<Text>
+        const [node] = match as NodeEntry<IText>
         const { text, ...rest } = node
         return rest
       } else {
@@ -541,7 +542,7 @@ export const Editor = {
         const [, blockPath] = block
 
         if (Path.isAncestor(blockPath, prevPath)) {
-          node = prevNode as Text
+          node = prevNode as IText
         }
       }
     }
@@ -1361,8 +1362,8 @@ export const Editor = {
             if (selection != null && result != null) {
               selection[key] = result
             } else {
-              let prev: NodeEntry<Text> | undefined
-              let next: NodeEntry<Text> | undefined
+              let prev: NodeEntry<IText> | undefined
+              let next: NodeEntry<IText> | undefined
 
               for (const [n, p] of Node.texts(editor)) {
                 if (Path.compare(p, path) === -1) {
@@ -1473,7 +1474,7 @@ export const Editor = {
           node.text = before
           newNode = {
             ...node,
-            ...(properties as Partial<Text>),
+            ...(properties as Partial<IText>),
             text: after,
           }
         } else {

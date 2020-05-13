@@ -1,12 +1,12 @@
 import { produce } from 'immer'
-import { Editor, Element, ElementEntry, Path, Range, Text } from '..'
+import { Editor, Element, ElementEntry, Path, Range, IText, Text } from '..'
 
 /**
  * The `Node` union type represents all of the different types of nodes that
  * occur in a Slate document tree.
  */
 
-export type Node = Editor | Element | Text
+export type Node = Editor | Element | IText
 
 export const Node = {
   /**
@@ -316,7 +316,7 @@ export const Node = {
    * Get the node at a specific path, ensuring it's a leaf text node.
    */
 
-  leaf(root: Node, path: Path): Text {
+  leaf(root: Node, path: Path): IText {
     const node = Node.get(root, path)
 
     if (!Text.isText(node)) {
@@ -484,7 +484,7 @@ export const Node = {
       reverse?: boolean
       pass?: (node: NodeEntry) => boolean
     } = {}
-  ): Iterable<NodeEntry<Text>> {
+  ): Iterable<NodeEntry<IText>> {
     for (const [node, path] of Node.nodes(root, options)) {
       if (Text.isText(node)) {
         yield [node, path]
@@ -499,7 +499,7 @@ export const Node = {
  * further than the more generic `Node` union.
  */
 
-export type Descendant = Element | Text
+export type Descendant = Element | IText
 
 /**
  * The `Ancestor` union type represents nodes that are ancestors in the tree.

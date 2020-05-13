@@ -6,6 +6,7 @@ import {
   Path,
   Point,
   Range,
+  IText,
   Text,
   Transforms,
   NodeEntry,
@@ -284,7 +285,7 @@ export const NodeTransforms = {
       if (Text.isText(node) && Text.isText(prevNode)) {
         const { text, ...rest } = node
         position = prevNode.text.length
-        properties = rest as Partial<Text>
+        properties = rest as Partial<IText>
       } else if (Element.isElement(node) && Element.isElement(prevNode)) {
         const { children, ...rest } = node
         position = prevNode.children.length

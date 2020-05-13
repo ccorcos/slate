@@ -4,6 +4,7 @@ import {
   Editor,
   Range,
   Point,
+  IText,
   Text,
   Element,
   Operation,
@@ -133,8 +134,8 @@ export const GeneralTransforms = {
             if (selection != null && result != null) {
               selection[key] = result
             } else {
-              let prev: NodeEntry<Text> | undefined
-              let next: NodeEntry<Text> | undefined
+              let prev: NodeEntry<IText> | undefined
+              let next: NodeEntry<IText> | undefined
 
               for (const [n, p] of Node.texts(editor)) {
                 if (Path.compare(p, path) === -1) {
@@ -245,7 +246,7 @@ export const GeneralTransforms = {
           node.text = before
           newNode = {
             ...node,
-            ...(properties as Partial<Text>),
+            ...(properties as Partial<IText>),
             text: after,
           }
         } else {

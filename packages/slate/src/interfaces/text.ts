@@ -7,7 +7,7 @@ import { Range } from '..'
  * nodes in the document tree as they cannot contain any children.
  */
 
-export interface Text {
+export interface IText {
   text: string
   [key: string]: unknown
 }
@@ -18,8 +18,8 @@ export const Text = {
    */
 
   equals(
-    text: Text,
-    another: Text,
+    text: IText,
+    another: IText,
     options: { loose?: boolean } = {}
   ): boolean {
     const { loose = false } = options
@@ -51,7 +51,7 @@ export const Text = {
    * Check if a value implements the `Text` interface.
    */
 
-  isText(value: any): value is Text {
+  isText(value: any): value is IText {
     return isPlainObject(value) && typeof value.text === 'string'
   },
 
@@ -59,7 +59,7 @@ export const Text = {
    * Check if a value is a list of `Text` objects.
    */
 
-  isTextList(value: any): value is Text[] {
+  isTextList(value: any): value is IText[] {
     return Array.isArray(value) && (value.length === 0 || Text.isText(value[0]))
   },
 
@@ -70,7 +70,7 @@ export const Text = {
    * the `text` property are two nodes equal.
    */
 
-  matches(text: Text, props: Partial<Text>): boolean {
+  matches(text: IText, props: Partial<IText>): boolean {
     for (const key in props) {
       if (key === 'text') {
         continue
@@ -88,8 +88,8 @@ export const Text = {
    * Get the leaves for a text node given decorations.
    */
 
-  decorations(node: Text, decorations: Range[]): Text[] {
-    let leaves: Text[] = [{ ...node }]
+  decorations(node: IText, decorations: Range[]): IText[] {
+    let leaves: IText[] = [{ ...node }]
 
     for (const dec of decorations) {
       const { anchor, focus, ...rest } = dec
