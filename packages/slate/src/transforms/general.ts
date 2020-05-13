@@ -6,7 +6,7 @@ import {
   Point,
   IText,
   Text,
-  Element,
+  IElement,
   Operation,
   Descendant,
   NodeEntry,
@@ -256,7 +256,7 @@ export const GeneralTransforms = {
 
           newNode = {
             ...node,
-            ...(properties as Partial<Element>),
+            ...(properties as Partial<IElement>),
             children: after,
           }
         }

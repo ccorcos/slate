@@ -1,5 +1,6 @@
 import {
   Editor,
+  IElement,
   Element,
   Location,
   Node,
@@ -289,7 +290,7 @@ export const NodeTransforms = {
       } else if (Element.isElement(node) && Element.isElement(prevNode)) {
         const { children, ...rest } = node
         position = prevNode.children.length
-        properties = rest as Partial<Element>
+        properties = rest as Partial<IElement>
       } else {
         throw new Error(
           `Cannot merge the node at path [${path}] with the previous sibling because it is not the same kind: ${JSON.stringify(
@@ -752,7 +753,7 @@ export const NodeTransforms = {
 
   wrapNodes(
     editor: Editor,
-    element: Element,
+    element: IElement,
     options: {
       at?: Location
       match?: (node: Node) => boolean

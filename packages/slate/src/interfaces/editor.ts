@@ -5,6 +5,7 @@ import { reverse as reverseText } from 'esrever'
 import {
   Ancestor,
   Descendant,
+  IElement,
   Element,
   Location,
   Node,
@@ -42,8 +43,8 @@ export interface Editor {
   [key: string]: unknown
 
   // Schema-specific node behaviors.
-  isInline: (element: Element) => boolean
-  isVoid: (element: Element) => boolean
+  isInline: (element: IElement) => boolean
+  isVoid: (element: IElement) => boolean
   normalizeNode: (entry: NodeEntry) => void
   onChange: () => void
 
@@ -258,7 +259,7 @@ export const Editor = {
    * Check if a node has block children.
    */
 
-  hasBlocks(editor: Editor, element: Element): boolean {
+  hasBlocks(editor: Editor, element: IElement): boolean {
     return element.children.some(n => Editor.isBlock(editor, n))
   },
 
@@ -266,7 +267,7 @@ export const Editor = {
    * Check if a node has inline and text children.
    */
 
-  hasInlines(editor: Editor, element: Element): boolean {
+  hasInlines(editor: Editor, element: IElement): boolean {
     return element.children.some(
       n => Text.isText(n) || Editor.isInline(editor, n)
     )
@@ -276,7 +277,7 @@ export const Editor = {
    * Check if a node has text children.
    */
 
-  hasTexts(editor: Editor, element: Element): boolean {
+  hasTexts(editor: Editor, element: IElement): boolean {
     return element.children.every(n => Text.isText(n))
   },
 
@@ -324,7 +325,7 @@ export const Editor = {
    * Check if a value is a block `Element` object.
    */
 
-  isBlock(editor: Editor, value: any): value is Element {
+  isBlock(editor: Editor, value: any): value is IElement {
     return Element.isElement(value) && !editor.isInline(value)
   },
 
@@ -377,7 +378,7 @@ export const Editor = {
    * Check if an element is empty, accounting for void nodes.
    */
 
-  isEmpty(editor: Editor, element: Element): boolean {
+  isEmpty(editor: Editor, element: IElement): boolean {
     const { children } = element
     const [first] = children
     return (
@@ -393,7 +394,7 @@ export const Editor = {
    * Check if a value is an inline `Element` object.
    */
 
-  isInline(editor: Editor, value: any): value is Element {
+  isInline(editor: Editor, value: any): value is IElement {
     return Element.isElement(value) && editor.isInline(value)
   },
 
@@ -424,7 +425,7 @@ export const Editor = {
    * Check if a value is a void `Element` object.
    */
 
-  isVoid(editor: Editor, value: any): value is Element {
+  isVoid(editor: Editor, value: any): value is IElement {
     return Element.isElement(value) && editor.isVoid(value)
   },
 
@@ -1484,7 +1485,7 @@ export const Editor = {
 
           newNode = {
             ...node,
-            ...(properties as Partial<Element>),
+            ...(properties as Partial<IElement>),
             children: after,
           }
         }
@@ -1571,7 +1572,7 @@ export const Editor = {
       mode?: 'highest' | 'lowest'
       voids?: boolean
     } = {}
-  ): NodeEntry<Element> | undefined {
+  ): NodeEntry<IElement> | undefined {
     return Editor.above(editor, {
       ...options,
       match: n => Editor.isVoid(editor, n),

@@ -7,7 +7,7 @@ import { Editor, Node, Path } from '..'
  * depending on the Slate editor's configuration.
  */
 
-export interface Element {
+export interface IElement {
   children: Node[]
   [key: string]: unknown
 }
@@ -17,7 +17,7 @@ export const Element = {
    * Check if a value implements the `Element` interface.
    */
 
-  isElement(value: any): value is Element {
+  isElement(value: any): value is IElement {
     return (
       isPlainObject(value) &&
       Node.isNodeList(value.children) &&
@@ -29,7 +29,7 @@ export const Element = {
    * Check if a value is an array of `Element` objects.
    */
 
-  isElementList(value: any): value is Element[] {
+  isElementList(value: any): value is IElement[] {
     return (
       Array.isArray(value) &&
       (value.length === 0 || Element.isElement(value[0]))
@@ -43,7 +43,7 @@ export const Element = {
    * children are equivalent.
    */
 
-  matches(element: Element, props: Partial<Element>): boolean {
+  matches(element: IElement, props: Partial<IElement>): boolean {
     for (const key in props) {
       if (key === 'children') {
         continue
@@ -63,4 +63,4 @@ export const Element = {
  * found inside a root node.
  */
 
-export type ElementEntry = [Element, Path]
+export type ElementEntry = [IElement, Path]

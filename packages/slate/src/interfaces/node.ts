@@ -1,12 +1,21 @@
 import { produce } from 'immer'
-import { Editor, Element, ElementEntry, Path, Range, IText, Text } from '..'
+import {
+  Editor,
+  IElement,
+  Element,
+  ElementEntry,
+  Path,
+  Range,
+  IText,
+  Text,
+} from '..'
 
 /**
  * The `Node` union type represents all of the different types of nodes that
  * occur in a Slate document tree.
  */
 
-export type Node = Editor | Element | IText
+export type Node = Editor | IElement | IText
 
 export const Node = {
   /**
@@ -499,7 +508,7 @@ export const Node = {
  * further than the more generic `Node` union.
  */
 
-export type Descendant = Element | IText
+export type Descendant = IElement | IText
 
 /**
  * The `Ancestor` union type represents nodes that are ancestors in the tree.
@@ -507,7 +516,7 @@ export type Descendant = Element | IText
  * than the more generic `Node` union.
  */
 
-export type Ancestor = Editor | Element
+export type Ancestor = Editor | IElement
 
 /**
  * `NodeEntry` objects are returned when iterating over the nodes in a Slate
